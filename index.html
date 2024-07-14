@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiel Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .button, .input-field {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1rem 2rem;
+            background-color: black;
+            background-opacity: 0.8;
+            color: #f1f1f1;
+            border-radius: 2rem;
+            font-weight: 600;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            transition: background-opacity 0.3s;
+            position: relative;
+        }
+        .button:hover, .input-field:hover {
+            background-opacity: 0.7;
+        }
+        .button svg {
+            height: 24px;
+            width: 24px;
+        }
+        .button div {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            background-opacity: 0.7;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+        }
+        .button:hover div {
+            opacity: 1;
+        }
+        input {
+            padding: 1rem;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>Spiel Bus Driver Gold Edition herunterladen</h1>
+        <div class="input-field" id="input-container">
+            <input type="text" id="product-key" placeholder="Produktschlüssel eingeben">
+            <button class="button" onclick="checkKey()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const correctKey = "H8JGVC-934JJS-876DF";
+
+        function checkKey() {
+            const inputKey = document.getElementById('product-key').value;
+            const inputContainer = document.getElementById('input-container');
+            const container = document.getElementById('container');
+
+            if (inputKey === correctKey) {
+                inputContainer.classList.add('hidden');
+                const downloadButton = document.createElement('button');
+                downloadButton.classList.add('button');
+                downloadButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g stroke-width="0"></g><g stroke-linejoin="round" stroke-linecap="round"></g><g> <g> <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#f1f1f1" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12"></path> </g> </g></svg>
+                    Download
+                    <div>Download</div>
+                `;
+                downloadButton.onclick = function() {
+                    window.location.href = "https://dw.uptodown.net/dwn/RF1BKmknR3VKsXSaWNi3yjF1coIum0V744xdHQhEgjRGSbtZQG_aMBNh9U1jUk2VNd_1J7_b9tqMcsmG2zRGlGcoIM39vaeC7ESSE-3NQTg8Ob34Da1WaIOKK5w7n8rF/NW6a139f9JjRDjDbIjjodHbCumhSy3QQlQ54jDmjQyPhdHq807QwcZtQjdAC_Zwk9qEg9DxuQDvvOkn-41L9etiBbaDBFAe2M2jLV3LWigVnbFHLoPoQpxTasjazf_3F/KlL1l2X4GIF4ftJUVUoHxpTgwzCT44uC8WUNWtorAJ40BKHViMVkdtDZdZTQB0azjnDhhd2uBm1PDqWMOz-Thg==/bus-driver-1-5-it-fr-es-en-win.exe";
+                };
+                container.appendChild(downloadButton);
+            } else {
+                alert("Ungültiger Produktschlüssel!");
+            }
+        }
+    </script>
+</body>
+</html>
