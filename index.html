@@ -28,16 +28,15 @@
             gap: 1.5rem;
             padding: 1rem 2rem;
             background-color: black;
-            background-opacity: 0.8;
             color: #f1f1f1;
             border-radius: 2rem;
             font-weight: 600;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-            transition: background-opacity 0.3s;
+            transition: opacity 0.3s;
             position: relative;
         }
         .button:hover, .input-field:hover {
-            background-opacity: 0.7;
+            opacity: 0.7;
         }
         .button svg {
             height: 24px;
@@ -49,7 +48,6 @@
             left: 50%;
             transform: translateX(-50%);
             background-color: black;
-            background-opacity: 0.7;
             padding: 0.5rem;
             border-radius: 0.5rem;
             opacity: 0;
@@ -68,6 +66,33 @@
         .hidden {
             display: none;
         }
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #222;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cookie-banner button {
+            margin-left: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .cookie-banner button.accept {
+            background-color: #28a745;
+            color: #fff;
+        }
+        .cookie-banner button.decline {
+            background-color: #dc3545;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -76,6 +101,13 @@
         <div class="input-field" id="input-container">
             <input type="text" id="product-key" placeholder="Produktschlüssel eingeben">
             <button class="button" onclick="checkKey()">OK</button>
+        </div>
+    </div>
+    <div class="cookie-banner" id="cookie-banner">
+        <div>Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Stimmen Sie der Verwendung von Cookies zu?</div>
+        <div>
+            <button class="accept" onclick="acceptCookies()">Akzeptieren</button>
+            <button class="decline" onclick="declineCookies()">Ablehnen</button>
         </div>
     </div>
 
@@ -106,7 +138,9 @@
             const container = document.getElementById('container');
 
             if (inputKey === correctKey) {
-                setCookie("validKey", correctKey, 7); // Cookie für 7 Tage setzen
+                if (getCookie("acceptCookies") === "true") {
+                    setCookie("validKey", correctKey, 7);
+                }
                 inputContainer.classList.add('hidden');
                 showDownloadButton(container);
             } else {
@@ -128,13 +162,30 @@
             container.appendChild(downloadButton);
         }
 
+        function acceptCookies() {
+            setCookie("acceptCookies", "true", 7);
+            document.getElementById("cookie-banner").style.display = "none";
+            if (getCookie("validKey") === correctKey) {
+                document.getElementById('input-container').classList.add('hidden');
+                showDownloadButton(document.getElementById('container'));
+            }
+        }
+
+        function declineCookies() {
+            alert("Wenn Sie Cookies ablehnen, müssen Sie bei jedem Besuch den Produktschlüssel erneut eingeben.");
+            document.getElementById("cookie-banner").style.display = "none";
+        }
+
         window.onload = function() {
             const container = document.getElementById('container');
             const inputContainer = document.getElementById('input-container');
 
-            if (getCookie("validKey") === correctKey) {
-                inputContainer.classList.add('hidden');
-                showDownloadButton(container);
+            if (getCookie("acceptCookies") === "true") {
+                document.getElementById("cookie-banner").style.display = "none";
+                if (getCookie("validKey") === correctKey) {
+                    inputContainer.classList.add('hidden');
+                    showDownloadButton(container);
+                }
             }
         };
     </script>
