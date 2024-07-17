@@ -82,28 +82,61 @@
     <script>
         const correctKey = "H8JGVC-934JJS-876DF";
 
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
         function checkKey() {
             const inputKey = document.getElementById('product-key').value;
             const inputContainer = document.getElementById('input-container');
             const container = document.getElementById('container');
 
             if (inputKey === correctKey) {
+                setCookie("validKey", correctKey, 7); // Cookie für 7 Tage setzen
                 inputContainer.classList.add('hidden');
-                const downloadButton = document.createElement('button');
-                downloadButton.classList.add('button');
-                downloadButton.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g stroke-width="0"></g><g stroke-linejoin="round" stroke-linecap="round"></g><g> <g> <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#f1f1f1" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12"></path> </g> </g></svg>
-                    Download
-                    <div>Download</div>
-                `;
-                downloadButton.onclick = function() {
-                    window.location.href = "https://dw.uptodown.net/dwn/RF1BKmknR3VKsXSaWNi3yjF1coIum0V744xdHQhEgjRGSbtZQG_aMBNh9U1jUk2VNd_1J7_b9tqMcsmG2zRGlGcoIM39vaeC7ESSE-3NQTg8Ob34Da1WaIOKK5w7n8rF/NW6a139f9JjRDjDbIjjodHbCumhSy3QQlQ54jDmjQyPhdHq807QwcZtQjdAC_Zwk9qEg9DxuQDvvOkn-41L9etiBbaDBFAe2M2jLV3LWigVnbFHLoPoQpxTasjazf_3F/KlL1l2X4GIF4ftJUVUoHxpTgwzCT44uC8WUNWtorAJ40BKHViMVkdtDZdZTQB0azjnDhhd2uBm1PDqWMOz-Thg==/bus-driver-1-5-it-fr-es-en-win.exe";
-                };
-                container.appendChild(downloadButton);
+                showDownloadButton(container);
             } else {
                 alert("Ungültiger Produktschlüssel!");
             }
         }
+
+        function showDownloadButton(container) {
+            const downloadButton = document.createElement('button');
+            downloadButton.classList.add('button');
+            downloadButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><g stroke-width="0"></g><g stroke-linejoin="round" stroke-linecap="round"></g><g> <g> <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2" stroke="#f1f1f1" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12"></path> </g> </g></svg>
+                Download
+                <div>Download</div>
+            `;
+            downloadButton.onclick = function() {
+                window.location.href = "https://dw.uptodown.net/dwn/RF1BKmknR3VKsXSaWNi3yjF1coIum0V744xdHQhEgjRGSbtZQG_aMBNh9U1jUk2VNd_1J7_b9tqMcsmG2zRGlGcoIM39vaeC7ESSE-3NQTg8Ob34Da1WaIOKK5w7n8rF/NW6a139f9JjRDjDbIjjodHbCumhSy3QQlQ54jDmjQyPhdHq807QwcZtQjdAC_Zwk9qEg9DxuQDvvOkn-41L9etiBbaDBFAe2M2jLV3LWigVnbFHLoPoQpxTasjazf_3F/KlL1l2X4GIF4ftJUVUoHxpTgwzCT44uC8WUNWtorAJ40BKHViMVkdtDZdZTQB0azjnDhhd2uBm1PDqWMOz-Thg==/bus-driver-1-5-it-fr-es-en-win.exe";
+            };
+            container.appendChild(downloadButton);
+        }
+
+        window.onload = function() {
+            const container = document.getElementById('container');
+            const inputContainer = document.getElementById('input-container');
+
+            if (getCookie("validKey") === correctKey) {
+                inputContainer.classList.add('hidden');
+                showDownloadButton(container);
+            }
+        };
     </script>
 </body>
 </html>
